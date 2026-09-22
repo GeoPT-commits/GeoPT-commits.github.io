@@ -85,23 +85,23 @@
           <h3 class="result-group-title">Simulation</h3>
           <div class="result-grid result-grid-simulation">
             <figure class="result-item">
-              <img src="static/gif/sim/sim1.gif" alt="GeoPT navigating a simulated bedroom environment" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/sim/sim1.jpg" data-src="static/gif/sim/sim1.mp4" aria-label="GeoPT navigating a simulated bedroom environment"></video>
               <figcaption>Bedroom Goal-Reaching I</figcaption>
             </figure>
             <figure class="result-item">
-              <img src="static/gif/sim/sim2.gif" alt="GeoPT navigating around a bed in simulation" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/sim/sim2.jpg" data-src="static/gif/sim/sim2.mp4" aria-label="GeoPT navigating around a bed in simulation"></video>
               <figcaption>Bedroom Goal-Reaching II</figcaption>
             </figure>
             <figure class="result-item">
-              <img src="static/gif/sim/sim3.gif" alt="GeoPT passing obstacles in a simulated indoor scene" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/sim/sim3.jpg" data-src="static/gif/sim/sim3.mp4" aria-label="GeoPT passing obstacles in a simulated indoor scene"></video>
               <figcaption>Cluttered Passage</figcaption>
             </figure>
             <figure class="result-item">
-              <img src="static/gif/sim/sim4.gif" alt="GeoPT navigating a densely furnished simulated room" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/sim/sim4.jpg" data-src="static/gif/sim/sim4.mp4" aria-label="GeoPT navigating a densely furnished simulated room"></video>
               <figcaption>Dense Indoor Layout</figcaption>
             </figure>
             <figure class="result-item">
-              <img src="static/gif/sim/sim5.gif" alt="Geometric visualization of GeoPT collision-aware planning" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/sim/sim5.jpg" data-src="static/gif/sim/sim5.mp4" aria-label="Geometric visualization of GeoPT collision-aware planning"></video>
               <figcaption>Geometric Planning View</figcaption>
             </figure>
           </div>
@@ -111,19 +111,19 @@
           <h3 class="result-group-title">Real-World Deployment</h3>
           <div class="result-grid result-grid-real">
             <figure class="result-item">
-              <img src="static/gif/real/real1.gif" alt="GeoPT navigating around obstacles on a real mobile manipulator" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/real/real1.jpg" data-src="static/gif/real/real1.mp4" aria-label="GeoPT navigating around obstacles on a real mobile manipulator"></video>
               <figcaption>Scene I (Third View I)</figcaption>
             </figure>
             <figure class="result-item">
-              <img src="static/gif/real/real2.gif" alt="GeoPT navigating a cluttered real-world environment" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/real/real2.jpg" data-src="static/gif/real/real2.mp4" aria-label="GeoPT navigating a cluttered real-world environment"></video>
               <figcaption>Scene I (Third View II)</figcaption>
             </figure>
             <figure class="result-item">
-              <img src="static/gif/real/real-first-view.gif" alt="First-person observation during real-world GeoPT deployment" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/real/real-first-view.jpg" data-src="static/gif/real/real-first-view.mp4" aria-label="First-person observation during real-world GeoPT deployment"></video>
               <figcaption>Scene I (Onboard Observation)</figcaption>
             </figure>            
             <figure class="result-item">
-              <img src="static/gif/real/real3.gif" alt="GeoPT completing a real-world mobile manipulation trial" width="640" height="360" loading="lazy" decoding="async">
+              <video class="result-media" autoplay muted loop playsinline preload="none" poster="static/gif/real/real3.jpg" data-src="static/gif/real/real3.mp4" aria-label="GeoPT completing a real-world mobile manipulation trial"></video>
               <figcaption>Scene II (Third View)</figcaption>
             </figure>
           </div>
@@ -135,5 +135,35 @@
   <footer class="site-footer">
     <p>GeoPT Project Page</p>
   </footer>
+
+  <script>
+    const resultVideos = document.querySelectorAll(".result-media[data-src]");
+
+    const loadResultVideo = (video) => {
+      if (!video.dataset.src) return;
+      video.src = video.dataset.src;
+      video.removeAttribute("data-src");
+      video.load();
+    };
+
+    if ("IntersectionObserver" in window) {
+      const resultVideoObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+
+          if (entry.isIntersecting) {
+            loadResultVideo(video);
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      }, { rootMargin: "300px 0px", threshold: 0.01 });
+
+      resultVideos.forEach((video) => resultVideoObserver.observe(video));
+    } else {
+      resultVideos.forEach(loadResultVideo);
+    }
+  </script>
 </body>
 </html>

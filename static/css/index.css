@@ -232,7 +232,7 @@ body {
   margin: 0;
 }
 
-.result-item img {
+.result-media {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
